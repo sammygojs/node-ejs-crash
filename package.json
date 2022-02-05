@@ -1,5 +1,12 @@
 {
+  "scripts":{
+    "start": "nodemon app.js"
+  },
   "dependencies": {
     "fs": "^0.0.1-security"
+  },
+  "devDependencies": {
+    "express": "^4.17.2",
+    "nodemon": "^2.0.15"
   }
 }
