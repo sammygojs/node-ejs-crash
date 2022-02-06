@@ -1,12 +1,66 @@
 const express = require('express')
 const app = express()
+const mongoose = require('mongoose');
+const Blog = require('./models/blogs');
 
 //register view engine
 app.set('view engine','ejs');
 //custom setting of folder if not views
 //app.set('views','myviews')
 
-app.listen(3000)
+const dbURI = 'mongodb+srv://admin:secret1234@cluster0.nfqjy.mongodb.net/test'
+mongoose.connect(dbURI, { useNewUrlParser:true, useUnifiedTopology:true})
+    .then((result)=>app.listen(3000))
+    .catch((err)=>console.log(err))
+
+//mongoose and mongo sandbox routes
+app.get('/add-blog', (req,res)=>{
+    const blog = new Blog({
+        title:"new title 2",
+        snippet:"this is the snippet",
+        body:"more about new blog"
+    })
+
+    blog.save()
+        .then((result)=>{
+            res.send(result)
+        })
+        .catch((err)=>{
+            console.log(err)
+        })    
+})
+
+app.get('/all-blogs',(req,res)=>{
+    Blog.find()
+        .then((result)=>{
+            res.send(result)
+        })
+        .catch((err)=>{
+            console.log(err)
+        })    
+})
+
+app.get('/single-blog',(req,res)=>{
+    Blog.findById('61ffccf49234a546e61a4c48')
+        .then((result)=>{
+            res.send(result)
+        })
+        .catch((err)=>{
+            console.log(err)
+        })    
+})
+
+app.get('/blogs',(req,res)=>{
+    //reverse Blog.find().sort({ createdAt: -1})
+    Blog.find()
+        .then((result)=>{
+            res.render('index', {title:'All Blogs', blogs:result})
+        })
+        .catch((err)=>{
+            console.log(err)
+        })    
+})
+
 
 app.use((req, res, next)=>{
     console.log("new request made")

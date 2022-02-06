@@ -4,7 +4,8 @@
   },
   "dependencies": {
     "ejs": "^3.1.6",
-    "fs": "^0.0.1-security"
+    "fs": "^0.0.1-security",
+    "mongoose": "^6.2.0"
   },
   "devDependencies": {
     "express": "^4.17.2",
